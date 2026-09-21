@@ -112,8 +112,6 @@ The first version renders QR images through `api.qrserver.com` to keep the initi
 If Wrangler is installed and `wrangler.jsonc` contains a valid D1 database ID:
 
 
-
-
 ```bash
 npx wrangler pages dev public
 
