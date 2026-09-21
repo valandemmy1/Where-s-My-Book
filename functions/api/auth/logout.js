@@ -1,0 +1,2 @@
+import {json,deleteSession,clearSessionCookie} from '../../_lib/auth.js';
+export async function onRequestPost({request,env}){await deleteSession(request,env);return json({ok:true},200,{'Set-Cookie':clearSessionCookie()});}

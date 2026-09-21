@@ -1,29 +1,6 @@
 PRAGMA foreign_keys = ON;
-
-CREATE TABLE IF NOT EXISTS books (
-  id TEXT PRIMARY KEY,
-  title TEXT NOT NULL,
-  author TEXT NOT NULL,
-  isbn TEXT,
-  start_city TEXT NOT NULL,
-  start_region TEXT,
-  start_country TEXT NOT NULL DEFAULT 'United States',
-  starter_note TEXT,
-  created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
-);
-
-CREATE TABLE IF NOT EXISTS sightings (
-  id INTEGER PRIMARY KEY AUTOINCREMENT,
-  book_id TEXT NOT NULL,
-  city TEXT NOT NULL,
-  region TEXT,
-  country TEXT NOT NULL DEFAULT 'United States',
-  event_type TEXT NOT NULL DEFAULT 'found',
-  note TEXT,
-  created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  FOREIGN KEY (book_id) REFERENCES books(id) ON DELETE CASCADE
-);
-
-CREATE INDEX IF NOT EXISTS idx_sightings_book_id ON sightings(book_id);
-CREATE INDEX IF NOT EXISTS idx_sightings_created_at ON sightings(created_at);
-CREATE INDEX IF NOT EXISTS idx_books_created_at ON books(created_at);
+CREATE TABLE IF NOT EXISTS users ( id TEXT PRIMARY KEY, email TEXT NOT NULL UNIQUE COLLATE NOCASE, password_hash TEXT NOT NULL, password_salt TEXT NOT NULL, password_iterations INTEGER NOT NULL DEFAULT 210000, created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP );
+CREATE TABLE IF NOT EXISTS books ( id TEXT PRIMARY KEY, title TEXT NOT NULL, author TEXT NOT NULL, isbn TEXT, start_city TEXT NOT NULL, start_region TEXT, start_country TEXT NOT NULL DEFAULT 'United States', starter_note TEXT, owner_user_id TEXT, created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP );
+CREATE TABLE IF NOT EXISTS sightings ( id INTEGER PRIMARY KEY AUTOINCREMENT, book_id TEXT NOT NULL, city TEXT NOT NULL, region TEXT, country TEXT NOT NULL DEFAULT 'United States', event_type TEXT NOT NULL DEFAULT 'found', note TEXT, created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP, FOREIGN KEY (book_id) REFERENCES books(id) ON DELETE CASCADE );
+CREATE TABLE IF NOT EXISTS sessions ( token_hash TEXT PRIMARY KEY, user_id TEXT NOT NULL, expires_at TEXT NOT NULL, created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP, FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE );
+CREATE INDEX IF NOT EXISTS idx_sightings_book_id ON sightings(book_id); CREATE INDEX IF NOT EXISTS idx_sightings_created_at ON sightings(created_at); CREATE INDEX IF NOT EXISTS idx_books_created_at ON books(created_at); CREATE INDEX IF NOT EXISTS idx_books_owner_user_id ON books(owner_user_id); CREATE INDEX IF NOT EXISTS idx_sessions_user_id ON sessions(user_id); CREATE INDEX IF NOT EXISTS idx_sessions_expires_at ON sessions(expires_at);
