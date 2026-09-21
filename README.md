@@ -27,3 +27,5 @@ Important: books created before the accounts migration remain unowned. They stay
 
 ## v2.1 optional-account reliability fix
 Anonymous book registration no longer depends on a successful account/session lookup. Account checks fail open to guest mode so the core tracker remains usable even if authentication is unavailable.
+
+
