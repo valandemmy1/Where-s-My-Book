@@ -7,7 +7,8 @@ form.addEventListener('submit',async(e)=>{
   try{
     const {book}=await WMB.api('/api/books',{method:'POST',body:JSON.stringify(payload)});
     const url=WMB.bookUrl(book.id);
-    WMB.setText('plateCode',book.id); WMB.setText('successTitle',`${book.title} — ${book.id}`);
+    WMB.setText('plateCode',book.id); WMB.setText('successTitle', book.title);
+WMB.setText('successId', book.id);
     document.getElementById('qr').src=WMB.qrUrl(url);
     document.getElementById('viewJourney').href=`/book.html?id=${encodeURIComponent(book.id)}`;
     document.getElementById('success').classList.remove('hidden');
