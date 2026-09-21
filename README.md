@@ -31,3 +31,7 @@ Anonymous book registration no longer depends on a successful account/session lo
 
 ## Admin Delete Book update
 The admin dashboard now includes a protected Delete Book button. It asks for confirmation and permanently deletes the selected book and its travel history. No D1 migration is required.
+
+
+## Launch footer update
+Adds About, Privacy, Terms, and Contact links at the bottom of every page. No database migration is required. The Contact page contains a temporary beta-support message until a public support email is chosen.
