@@ -1,0 +1,13 @@
+WHERE'S MY BOOK? — RECENT TRAVELS HOMEPAGE UPDATE
+
+What this adds:
+- A public "Recently Traveling Books" section on the homepage.
+- Up to 6 books sorted by latest activity.
+- Each card shows Book ID, title, author, journey origin, latest city-level location, number of travel updates, and last activity date.
+- No finder notes, email addresses, exact addresses, or account information are shown.
+- A View Journey button opens that book's existing journey page.
+
+Database migration: NONE REQUIRED.
+
+Deployment:
+Upload/replace the contents in the existing GitHub repo, commit, and let Cloudflare Pages redeploy automatically.
