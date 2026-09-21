@@ -114,10 +114,6 @@ If Wrangler is installed and `wrangler.jsonc` contains a valid D1 database ID:
 ```bash
 npx wrangler pages dev public
 
-
-
-
-
 ```
 
 For local D1 development you can also use Wrangler's local D1 persistence and apply the schema locally.
