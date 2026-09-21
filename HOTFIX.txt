@@ -1,0 +1,5 @@
+OPTIONAL ACCOUNTS REGISTRATION HOTFIX
+
+This build changes book registration so the book is always created first using the original working database fields. Optional account ownership is attached afterward and cannot block guest registration.
+
+No database migration is required for this hotfix.
