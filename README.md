@@ -23,3 +23,7 @@ Important: books created before the accounts migration remain unowned. They stay
 - Anonymous registrations remain fully trackable by Book ID and QR code, but are not attached to a My Books dashboard.
 - If a visitor signs in before registering, the new book is automatically linked to that user and appears in My Books.
 - Finders never need an account to view a journey or add a stop.
+
+
+## v2.1 optional-account reliability fix
+Anonymous book registration no longer depends on a successful account/session lookup. Account checks fail open to guest mode so the core tracker remains usable even if authentication is unavailable.
