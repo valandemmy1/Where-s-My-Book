@@ -16,3 +16,10 @@ Important: books created before the accounts migration remain unowned. They stay
 - Login sessions use random opaque tokens. Only a SHA-256 hash of each token is stored in D1.
 - The browser receives the session token in an HttpOnly, Secure, SameSite=Lax cookie.
 - Email verification and password-reset email are intentionally not included in this MVP yet.
+
+
+## Optional account behavior
+- Visitors may register books without creating an account.
+- Anonymous registrations remain fully trackable by Book ID and QR code, but are not attached to a My Books dashboard.
+- If a visitor signs in before registering, the new book is automatically linked to that user and appears in My Books.
+- Finders never need an account to view a journey or add a stop.
