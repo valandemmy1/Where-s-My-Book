@@ -8,28 +8,24 @@ function toB64Url(bytes){
   let bin=''; for(const b of bytes) bin+=String.fromCharCode(b);
   return btoa(bin).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'');
 }
-function fromB64Url(s){
-  s=String(s||'').replace(/-/g,'+').replace(/_/g,'/'); while(s.length%4)s+='=';
-  const bin=atob(s), out=new Uint8Array(bin.length); for(let i=0;i<bin.length;i++)out[i]=bin.charCodeAt(i); return out;
-}
 function randomBytes(n){const a=new Uint8Array(n);crypto.getRandomValues(a);return a;}
 function randomToken(n=32){return toB64Url(randomBytes(n));}
+export function randomSalt(){return toB64Url(randomBytes(16));}
 export function makeUserId(){return 'USR-'+randomToken(9).replace(/[^A-Za-z0-9]/g,'').slice(0,12).toUpperCase();}
 
 export function normalizeEmail(v){return String(v||'').trim().toLowerCase().slice(0,254);}
 export function validEmail(v){return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);}
+export function safeEqual(a,b){a=String(a||'');b=String(b||'');if(!a||!b||a.length!==b.length)return false;let d=0;for(let i=0;i<a.length;i++)d|=a.charCodeAt(i)^b.charCodeAt(i);return d===0;}
 
-export async function hashPassword(password,saltB64,iterations=210000){
-  const key=await crypto.subtle.importKey('raw',enc.encode(password),'PBKDF2',false,['deriveBits']);
-  const bits=await crypto.subtle.deriveBits({name:'PBKDF2',salt:fromB64Url(saltB64),iterations,hash:'SHA-256'},key,256);
-  return toB64Url(new Uint8Array(bits));
+// Password stretching is deliberately performed in the browser so it does not
+// consume the very small CPU allowance of a free Cloudflare Pages Function.
+// The server stores SHA-256(client PBKDF2 proof), not the proof itself.
+export async function hashPasswordProof(proof){
+  const value=String(proof||'').trim();
+  if(!/^[A-Za-z0-9_-]{40,60}$/.test(value))throw new Error('Invalid password proof.');
+  const dig=await crypto.subtle.digest('SHA-256',enc.encode(value));
+  return toB64Url(new Uint8Array(dig));
 }
-export async function createPasswordRecord(password){
-  const salt=toB64Url(randomBytes(16)), iterations=210000;
-  return {salt,iterations,hash:await hashPassword(password,salt,iterations)};
-}
-function safeEqual(a,b){a=String(a||'');b=String(b||'');if(!a||!b||a.length!==b.length)return false;let d=0;for(let i=0;i<a.length;i++)d|=a.charCodeAt(i)^b.charCodeAt(i);return d===0;}
-export async function verifyPassword(password,user){return safeEqual(await hashPassword(password,user.password_salt,user.password_iterations),user.password_hash);}
 
 async function sha256(value){const dig=await crypto.subtle.digest('SHA-256',enc.encode(value));return toB64Url(new Uint8Array(dig));}
 function cookieValue(request,name){

@@ -1,0 +1,14 @@
+ACCOUNT CREATION HOTFIX
+
+This version keeps accounts optional and moves PBKDF2 password stretching into the visitor's browser so account creation does not exceed Cloudflare Pages Functions CPU limits.
+
+No additional database migration is required if migration_accounts.sql was already run.
+
+Upload/replace the contents of this folder in the existing GitHub repository and allow Cloudflare to redeploy.
+
+Test sequence:
+1. Visit /account.html
+2. Create an account with a 12+ character password.
+3. After success you should be redirected to /my-books.html.
+4. While signed in, register a book. It should appear in My Books.
+5. Log out and verify guest book registration still works.
