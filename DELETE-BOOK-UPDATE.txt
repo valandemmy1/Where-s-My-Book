@@ -1,0 +1,11 @@
+Where's My Book? — Admin Delete Book update
+
+What changed:
+- Added a Delete Book button to each row of the private admin dashboard.
+- Deletion requires the existing ADMIN_KEY.
+- A confirmation warning appears before deletion.
+- Deleting a book also deletes all of its travel stops.
+- No database migration is required.
+
+Install:
+Upload the contents of this package to the existing GitHub repository and commit. Cloudflare Pages should redeploy automatically.
